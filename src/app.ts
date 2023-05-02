@@ -26,6 +26,8 @@ if (corsOrigins) {
     },
   };
   app.use(cors(corsOptions));
+} else {
+  app.use(cors());
 }
 
 const db = new sqlite3.Database(databasePath);
@@ -53,7 +55,7 @@ app.get("/status", (_req: Request, res: Response) => {
   });
 });
 
-app.get("/decomposition/:character", (req: Request, res: Response) => {
+app.get("/character/:character/composition", (req: Request, res: Response) => {
   const character = req.params.character;
   db.get(
     "SELECT * FROM decompositions WHERE component = ? LIMIT 1",

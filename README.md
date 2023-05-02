@@ -37,7 +37,7 @@ yarn start
 ```
 
 This will start the server on port 3100. You can then access the API
-endpoint at `http://localhost:3100/decomposition/:character`, where `:character`
+endpoint at `http://localhost:3100/character/:character/composition`, where `:character`
 is a Hanzi character.
 
 `yarn start` defaults to a different port from the webdev default (3000), so
@@ -46,12 +46,12 @@ is a Hanzi character.
 
 ## API Endpoint
 
-The server provides a single API endpoint at `/decomposition/:character`, where
+The server provides a single API endpoint at `/character/:character/composition`, where
 `:character` is a Hanzi character. The endpoint accepts GET requests and returns
 the decomposition of the character in JSON format.
 
 For example, to get the decomposition of the character "好", you can make a GET
-request to `http://localhost:3100/decomposition/好`. This will return a JSON
+request to `http://localhost:3100/character/好/composition`. This will return a JSON
 object with the character and its decomposition:
 
 ```json
