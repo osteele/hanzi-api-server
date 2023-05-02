@@ -1,0 +1,60 @@
+{
+  "name": "hanzi-api-server",
+  "version": "1.0.0",
+  "description": "A Node.js API server that returns Hanzi character decompositions",
+  "author": "Oliver Steele <steele@osteele.com>",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/osteele/hanzi-api-server.git"
+  },
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "createdb": "bash scripts/create-db.sh",
+    "dev": "cross-env PORT=3100 nodemon -w server -e *.ts src/server.ts",
+    "start": "cross-env NODE_ENV=production ts-node --transpileOnly src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "watch": "tsc -w",
+    "lint": "eslint . --ext .ts",
+    "prettier": "prettier --write '**/*.{ts,js,json,md}'",
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^14.14.37",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.1.0",
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.4.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^27.1.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/tests"
+    ]
+  },
+  "engines": {
+    "node": "^18.0.0"
+  }
+}

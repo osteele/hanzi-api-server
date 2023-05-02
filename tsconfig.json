@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    // Language and environment
+    "target": "es2018",
+    // Module options
+    "module": "commonjs",
+    "esModuleInterop": true,
+    // Type checking
+    "strict": true,
+    // Emit options
+    "outDir": "dist",
+    "sourceMap": true
+  },
+  "ts-node": {
+    "esm": true,
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
