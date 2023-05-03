@@ -14,15 +14,15 @@ describe("Character Decompositions API Server", () => {
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
       component: "好",
+      strokes: 6,
       decompositionType: "吅",
       leftComponent: "女",
       leftStrokes: 3,
-      notes: "/",
       rightComponent: "子",
       rightStrokes: 3,
-      section: "女",
+      notes: "/",
+      radical: "女",
       signature: "VND",
-      strokes: 6,
     });
   });
 
@@ -31,5 +31,23 @@ describe("Character Decompositions API Server", () => {
       `/character/${encodeURI("👽")}/composition`
     );
     expect(response.status).toBe(404);
+  });
+});
+
+describe("Health and Status endpoints", () => {
+  it("should respond with 200 and 'OK' for GET /health", async () => {
+    const response = await request(app).get("/health");
+
+    expect(response.status).toEqual(200);
+    expect(response.text).toEqual("OK");
+  });
+
+  it("should respond with status object for GET /status", async () => {
+    const response = await request(app).get("/status");
+
+    expect(response.status).toEqual(200);
+    expect(response.body.status).toEqual("OK");
+    expect(response.body.version).toBeDefined();
+    expect(response.body.uptime).toBeGreaterThan(0);
   });
 });

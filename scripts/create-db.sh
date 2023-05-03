@@ -40,7 +40,10 @@ fi
 
 if [ "$DOWNLOAD" = true ]; then
   # Download the file from the remote URL
-    curl -s "$URL" | awk '/<pre>/,/<\/pre>/ {if (NF==10 && ++count>1) print}' > "$TSV_FILE"
+    curl -s "$URL" \
+      | awk '/<pre>/,/<\/pre>/ {if (NF==10 && ++count>1) print}' \
+      > "$TSV_FILE"
+      # | awk -F'\t' 'NR>1 && $1==prev {print prev_line} {prev=$1; prev_line=$0}' \
 fi
 
 # If the SQLite database file already exists, remove it
@@ -51,17 +54,22 @@ fi
 # Create a new SQLite database file
 sqlite3 "$DB_FILE" <<EOF
 CREATE TABLE decompositions (
-  component TEXT,
-  strokes NUMBER,
-  decompositionType TEXT,
-  leftComponent TEXT,
-  leftStrokes NUMBER,
-  rightComponent TEXT,
-  rightStrokes NUMBER,
-  signature TEXT,
-  notes TEXT,
-  section NUMBER
+  component CHAR(1) PRIMARY KEY,
+  strokes INTEGER CHECK (strokes > 0) NOT NULL,
+  decompositionType TEXT, -- CHECK (decompositionType IN ('*', '+', '一', '冖', '叕', '吅', '吕', '咒', '品', '回', '弼')) NOT NULL,
+  leftComponent CHAR(1) NOT NULL,
+  leftStrokes INTEGER CHECK (leftStrokes >= 0) NOT NULL,
+  rightComponent CHAR(1),
+  rightStrokes INTEGER CHECK (rightStrokes >= 0),
+  signature VARCHAR(5), -- CHECK (signature REGEXP '^[A-Z]{1,5}$|^1$') NOT NULL,
+  notes TEXT CHECK (notes IN ('*/', '*/*', '*/?', '/', '/#REF!', '/*', '/?', '?/', '?/?')) NOT NULL,
+  radical CHAR(1)
 );
 .mode tabs
 .import "$TSV_FILE" decompositions
+UPDATE decompositions SET rightStrokes = NULL WHERE rightStrokes = 0;
+UPDATE decompositions SET rightComponent = NULL WHERE rightComponent = '*';
+UPDATE decompositions SET radical = component WHERE radical = '*';
+CREATE INDEX leftCompIndex ON decompositions(leftComponent);
+CREATE INDEX rightCompIndex ON decompositions(rightComponent);
 EOF
