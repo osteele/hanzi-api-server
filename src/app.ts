@@ -55,32 +55,35 @@ app.get("/status", (_req: Request, res: Response) => {
   });
 });
 
-app.get("/character/:character/composition", (req: Request, res: Response) => {
-  const character = req.params.character;
-  db.get(
-    "SELECT * FROM decompositions WHERE component = ? LIMIT 1",
-    [character],
-    (err: Error, row: any) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Database error");
-        return;
-      }
+app.get(
+  "/character/:character/decomposition",
+  (req: Request, res: Response) => {
+    const character = req.params.character;
+    db.get(
+      "SELECT * FROM decompositions WHERE component = ? LIMIT 1",
+      [character],
+      (err: Error, row: any) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Database error");
+          return;
+        }
 
-      if (!row) {
-        res.status(404).send("Character not found");
-        return;
-      }
+        if (!row) {
+          res.status(404).send("Character not found");
+          return;
+        }
 
-      // Create an object with field names and values
-      try {
-        res.json(row);
-      } catch (err) {
-        console.error(err);
-        res.status(500).send("Server error");
+        // Create an object with field names and values
+        try {
+          res.json(row);
+        } catch (err) {
+          console.error(err);
+          res.status(500).send("Server error");
+        }
       }
-    }
-  );
-});
+    );
+  }
+);
 
 export default app;

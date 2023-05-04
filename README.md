@@ -2,7 +2,10 @@
 
 This is a Node.js API server that searches a SQLite database for character
 decompositions. It provides a single route that accepts a Hanzi character as a
-parameter and returns the decomposition of that character.
+path component, and returns the decomposition of that character.
+
+This server was developed to support the [Hanzi
+Explorer](https://github.com/osteele/hanzi-explorer) web application.
 
 ## Getting Started
 
@@ -37,7 +40,7 @@ yarn start
 ```
 
 This will start the server on port 3100. You can then access the API
-endpoint at `http://localhost:3100/character/:character/composition`, where `:character`
+endpoint at `http://localhost:3100/character/:character/decomposition`, where `:character`
 is a Hanzi character.
 
 `yarn start` defaults to a different port from the webdev default (3000), so
@@ -46,26 +49,26 @@ is a Hanzi character.
 
 ## API Endpoint
 
-The server provides a single API endpoint at `/character/:character/composition`, where
+The server provides a single API endpoint at `/character/:character/decomposition`, where
 `:character` is a Hanzi character. The endpoint accepts GET requests and returns
 the decomposition of the character in JSON format.
 
 For example, to get the decomposition of the character "好", you can make a GET
-request to `http://localhost:3100/character/好/composition`. This will return a JSON
+request to `http://localhost:3100/character/好/decomposition`. This will return a JSON
 object with the character and its decomposition:
 
 ```json
 {
-  component: "好",
-  strokes: 6,
-  decompositionType: "吅",
-  leftComponent: "女",
-  leftStrokes: 3,
-  rightComponent: "子",
-  rightStrokes: 3,
-  signature: "VND",
-  notes: "/",
-  section: "女",
+  "component": "好",
+  "strokes": 6,
+  "decompositionType": "吅",
+  "leftComponent": "女",
+  "leftStrokes": 3,
+  "rightComponent": "子",
+  "rightStrokes": 3,
+  "signature": "VND",
+  "notes": "/",
+  "radical": "女",
 }
 ```
 
@@ -80,12 +83,12 @@ Found response.
 
 The server can be configured by setting theese environment variables:
 
-- `CORS_ORIGINS` (default empty) -- comma-separate list of URLs or domains for
+- `CORS_ORIGINS` (default empty) — comma-separated list of URLs or domains for
   CORS access. Leave unset to allow all domains.
-- `DATABASE_PATH` (`data/decompositions.sqlite`) -- the path to the SQLite
+- `DATABASE_PATH` (default `data/decompositions.sqlite`) — the path to the SQLite
   database file
-- `HOME_PAGE_REDIRECT_URL` (empty) -- visiting the site root redirects to this page
-- `PORT` (`3010`) -- HTTP port
+- `HOME_PAGE_REDIRECT_URL` (default empty) — visiting the site root redirects to this page
+- `PORT` (default `3010`) — HTTP port
 
 ## Acknowledgements
 
@@ -98,5 +101,5 @@ directory.
 
 ## License
 
-This project is licensed for non-commercial use under the GNU Affero Gernal
+This project is licensed for non-commercial use under the GNU Affero General
 Public License - see the [LICENSE](LICENSE) file for details.

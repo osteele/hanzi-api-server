@@ -2,14 +2,14 @@ import request from "supertest";
 import app from "../src/app";
 
 describe("Character Decompositions API Server", () => {
-  test("GET /character/composition/ returns 404 Not Found", async () => {
-    const response = await request(app).get("/decomposition/");
+  test("GET /character/ returns 404 Not Found", async () => {
+    const response = await request(app).get("/character/");
     expect(response.status).toBe(404);
   });
 
-  test("GET /character/:character/composition returns 200 OK with the decompositions of the character", async () => {
+  test("GET /character/:character/decomposition returns 200 OK with the decompositions of the character", async () => {
     const response = await request(app).get(
-      `/character/${encodeURI("好")}/composition`
+      `/character/${encodeURI("好")}/decomposition`
     );
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
@@ -26,9 +26,9 @@ describe("Character Decompositions API Server", () => {
     });
   });
 
-  test("GET /character/:unknown_character/composition returns 404 Not Found", async () => {
+  test("GET /character/:unknown_character/decomposition returns 404 Not Found", async () => {
     const response = await request(app).get(
-      `/character/${encodeURI("👽")}/composition`
+      `/character/${encodeURI("👽")}/decomposition`
     );
     expect(response.status).toBe(404);
   });
